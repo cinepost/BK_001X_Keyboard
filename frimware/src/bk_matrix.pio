@@ -1,0 +1,17 @@
+.program bk_matrix
+.side_set 1 opt // Optional: use for debugging or signaling
+
+; Input: 10 bits from Y-lines (Scan)
+; Output: 8 bits to X-lines (Data) via 'out' or 'set' pins
+
+loop:
+    in pins, 10         ; Read all 10 Y-lines from the BK
+    mov x, isr          ; Move the read value to X register
+    
+    ; Check if any Y-line is Low (0). 
+    ; The logic here depends on your specific mapping.
+    ; Simplified: The CPU pushes a "response map" to the FIFO.
+    
+    pull noblock        ; Pull the latest key-state bitmask from the CPU
+    out pins, 8         ; Output 8 bits to the X-lines (Data)
+    jmp loop
